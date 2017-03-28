@@ -47,8 +47,8 @@ window.onload=function(){
                 board[i]=0;
             }       //九宫格归零，棋盘数组归零
             if(totalGames%2==1){
-                chooseX.disabled="disabled";电脑先手的时候，不可以再选角色了，禁用按钮  
-                chooseO.disabled="disabled";电脑先手的时候，不可以再选角色了，禁用按钮
+                chooseX.disabled="disabled";//电脑先手的时候，不可以再选角色了，禁用按钮  
+                chooseO.disabled="disabled";//电脑先手的时候，不可以再选角色了，禁用按钮
                 whoTurn=false;
                 cpu();
             }//交替先手，
