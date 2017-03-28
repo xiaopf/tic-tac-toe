@@ -16,8 +16,10 @@ window.onload=function(){
         chooseX.checked='checked';
         var yourRole=chooseX.value;
         var cpuRole=chooseO.value;
-        chooseX.onclick=function(){yourRole=chooseX.value;cpuRole=chooseO.value;}
-        chooseO.onclick=function(){yourRole=chooseO.value;cpuRole=chooseX.value;}
+        chooseX.onclick=function(){
+            yourRole=chooseX.value;cpuRole=chooseO.value;}
+        chooseO.onclick=function(){
+            yourRole=chooseO.value;cpuRole=chooseX.value;}
 
         //得分板初始化，总比赛局数，cpu胜，人胜，平局次数
         var totalGames=0;
@@ -36,6 +38,8 @@ window.onload=function(){
 
         // 初始化函数，每局结束之后调用
         function init(){
+            chooseX.removeAttribute("disabled");//每次初始化的时候是可以选角色的，启用按钮
+            chooseO.removeAttribute("disabled");//每次初始化的时候是可以选角色的，启用按钮
             whoTurn=true;
             step=0; //步数归零
             for (var i = 0; i < boxes.length; i++) {
@@ -43,16 +47,22 @@ window.onload=function(){
                 board[i]=0;
             }       //九宫格归零，棋盘数组归零
             if(totalGames%2==1){
+                chooseX.disabled="disabled";电脑先手的时候，不可以再选角色了，禁用按钮  
+                chooseO.disabled="disabled";电脑先手的时候，不可以再选角色了，禁用按钮
                 whoTurn=false;
                 cpu();
             }//交替先手，
+
         }
 
         //循环给每个格子添加点击事件
         for (var i = 0; i < boxes.length; i++) {
             boxes[i].index=i; //每个格子添加索引自定义属性
 
-            boxes[i].onclick=function(){ 
+            boxes[i].onclick=function(){
+
+                chooseX.disabled="disabled";//人先手的话，只要一点击棋盘就不能换角色了，禁用按钮  
+                chooseO.disabled="disabled";//人先手的话，只要一点击棋盘就不能换角色了，禁用按钮
 
                 if(this.innerHTML){return false;};   //如果点击的格子有内容，就禁止点击
                 if(!whoTurn){return false;}; //判断是谁的顺序，
@@ -66,7 +76,7 @@ window.onload=function(){
                     draw++      //平局的变量自加
                     scopes[3].innerHTML=draw;  //平局的数据填充到页面上
                     scopes[0].innerHTML=totalGames=youWins+cpuWins+draw; //统计局数
-                    alert(isDraw()+"1");   //弹出平局提示
+                    alert(isDraw()+"!");   //弹出平局提示
                     init();          //本局结束初始化数据
                     return false;
                 }
@@ -80,11 +90,13 @@ window.onload=function(){
                     return false;
                 }
                 cpu();  //调用cpu，让电脑下棋 
+
             }
         }
 
         //电脑下棋的函数
         function cpu(){
+
 
             if(whoTurn){return false;}; 
             whoTurn=true;     //交出控制权
@@ -112,7 +124,7 @@ window.onload=function(){
                     draw++
                     scopes[3].innerHTML=draw;
                     scopes[0].innerHTML=totalGames=youWins+cpuWins+draw; //统计局数
-                    alert(isDraw()+"2"); 
+                    alert(isDraw()+"!"); 
                     init();
                     return false;
                 }
